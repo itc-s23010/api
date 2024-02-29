@@ -16,7 +16,7 @@ export default function Home () {
     try {
       // Google Maps APIを使用して距離と時間を取得
       const directionsResponse = await axios.get(
-        `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+        `https://maps.googleapis.com/maps/api/directions/json?origin=${origin}&destination=${destination}&key=${process.env.GOOGLE_MAPS_API_KEY}`
       )
       const { distance, duration } = directionsResponse.data.routes[0].legs[0] // APIレスポンスから距離と時間を抽出
       setDistance(distance.text) // 距離を更新
@@ -24,14 +24,14 @@ export default function Home () {
 
       // Google Maps APIを使用して目的地の緯度経度を取得
       const geocodeResponse = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${destination}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${destination}&key=${process.env.GOOGLE_MAPS_API_KEY}`
       )
       const lat = geocodeResponse.data.results[0].geometry.location.lat // 目的地の緯度
       const lng = geocodeResponse.data.results[0].geometry.location.lng // 目的地の経度
 
       // 楽天トラベルAPIを使用して周辺のホテルを検索
       const hotelsResponse = await axios.get(
-        `https://app.rakuten.co.jp/services/api/Travel/SimpleHotelSearch/20170426?format=json&latitude=${lat}&longitude=${lng}&searchRadius=3&applicationId=${process.env.NEXT_PUBLIC_RAKUTEN_API_KEY}`
+        `https://app.rakuten.co.jp/services/api/Travel/SimpleHotelSearch/20170426?format=json&latitude=${lat}&longitude=${lng}&searchRadius=3&applicationId=${process.env.RAKUTEN_API_KEY}`
       )
       setHotels(hotelsResponse.data.hotels) // ホテルデータを更新
     } catch (error) {
